@@ -6,7 +6,7 @@ Ergo is a small Clojure/Clojurescript library for iteration in a tranducer style
 
 ** Install
 
-Not on clojars yet, have to use the git tag `0.1-alpha` for now
+~com.jessesherlock/ergo {:mvn/version "0.1.3-alpha"}~ / ~[com.jessesherlock/ergo "0.1.3-alpha"]~
 
 ** Iterate
 Iterate takes a function f and a seed value x and returns an infinite list of x, (f x), (f (f x)), (f (f (f x))), etc
@@ -29,7 +29,7 @@ The clojure core version returns a lazy list, but I find it very useful to use a
 
 Using iterate as a transducer means it will take the first value in the collection being and use that as a seed, never touching any other values. Since iteration isn't a type of reduction, it's more of a sibling of the reducing concept (map is list->list, reduce is list->value, iterate is value->list), but it is still very useful to use it like this.
 
-Ergo has a `produce` fn that works like transduce but takes a value instead of a collection so that you don't have to wrap the seed in a collection all the time for no reason.
+Ergo has a ~produce~ fn that works like transduce but takes a value instead of a collection so that you don't have to wrap the seed in a collection all the time for no reason.
 
 #+BEGIN_SRC clojure
 (ergo/produce (comp (ergo/iterate (partial * 2)) (take 5)) conj [] 1)
@@ -38,7 +38,7 @@ Ergo has a `produce` fn that works like transduce but takes a value instead of a
 
 *** Stopping iteration
 
-Since (take n) to stop iteration isn't viable for many/most use cases, there are a number of useful utility functions in `ergo.core` to stop on a nil value, when values reach a fixed point, until an arbitrary predicate returns true, until an exception is thrown and some others, as well as utility functions to build your own versions.
+Since (take n) to stop iteration isn't viable for many/most use cases, there are a number of useful utility functions in ~ergo.core~ to stop on a nil value, when values reach a fixed point, until an arbitrary predicate returns true, until an exception is thrown and some others, as well as utility functions to build your own versions.
 
 Look at the tests for examples of all of them.
 
@@ -56,7 +56,7 @@ Like any transducer you can use iterate in an async transducing context (where t
 
 But when using iterate for data pipelines/interceptors/state machines you will come across situations where your seed isn't in a channel but your transition function, the one you want to iterate, *returns* a core.async channel.
 
-This is what the `ergo.async` namespace is for.
+This is what the ~ergo.async~ namespace is for.
 
 #+BEGIN_SRC clojure
 (require '[clojure.core.async :as a])
@@ -68,9 +68,9 @@ This is what the `ergo.async` namespace is for.
 ; [1 2 3 4 5]
 #+END_SRC
 
-`ergo.async/iterate` expects the seed to be in a channel (since it will be in a channel for every iteration but the first due to your async transition function)
+~ergo.async/iterate~ expects the seed to be in a channel (since it will be in a channel for every iteration but the first due to your async transition function)
 
-It also has a useful version of `produce`
+It also has a useful version of ~produce~
 
 #+BEGIN_SRC clojure
 (a/<!! (ea/produce (comp (ea/iterate async-inc) (take 5)) conj [] 1))
@@ -78,10 +78,10 @@ It also has a useful version of `produce`
 
 #+END_SRC clojure
 
-and a function called `put-rf!` which works like `core.async/put!` but can be used as a reducer, very useful for reducing/transducing values onto a core async channel.
+and a function called ~put-rf!~ which works like ~core.async/put!~ but can be used as a reducer, very useful for reducing/transducing values onto a core async channel.
 
 
-When working with a pipeline of single values in an async context, especially if you process the collection of iteration steps then promise-channels are your friend, since normal mutable channels require a lot of care, `ergo.async-utils` has a number of functions for coercion to promise-channels as well as exception handling.
+When working with a pipeline of single values in an async context, especially if you process the collection of iteration steps then promise-channels are your friend, since normal mutable channels require a lot of care, ~ergo.async-utils~ has a number of functions for coercion to promise-channels as well as exception handling.
 
 My main use case for this library is for state machines with transitions functions that may or may not return an async value, depending on the state, so there are also a number of utility functions for working with mixed values or coercing multiple types into a promise-channel.
 
