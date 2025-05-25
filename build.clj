@@ -3,7 +3,7 @@
 
 (def lib 'com.jessesherlock/ergo)
 
-(def version (format "0.1.%s-alpha" (b/git-count-revs nil)))
+(def version "0.1.3")
 
 (def class-dir "target/classes")
 

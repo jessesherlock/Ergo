@@ -44,12 +44,6 @@
      (chan->pchan x pc)
      (val->pchan x pc))))
 
-(defn pipe-mixed
-  [from to]
-  (if (chan? from)
-    (a/pipe from to)
-    (a/put! to from)))
-
 (defn pchan-returning
   "f is a single arity function that takes a value and *may* return a channel,
   the returned fn is one that takes a value and always returns a promise-chan"

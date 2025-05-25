@@ -46,11 +46,40 @@
          ret (f init seed)]
      (f ret))))
 
+;; * reducing fns
+
+(defn last
+  ([] nil)
+  ([x] x)
+  ([_ x] x))
+
+
+(defn thread-rf
+  ([] nil)
+  ([v] v)
+  ([v f]
+   (f v)))
+
 
 ;; * useful transducers to use with iterate
 
+(defn take-until
+  [pred]
+  (take-while (complement pred)))
+
 (def til-nil
-  (take-while (complement nil?)))
+  (take-until nil?))
+
+(defn take-until-after
+  [pred]
+  (fn [rf]
+    (fn
+      ([] (rf))
+      ([result] (rf result))
+      ([result input]
+       (if (pred input)
+         (reduced (rf result input))
+         (rf result input))))))
 
 (defn backtrack
   "Transducer to replace input with (f previous-input input). Stateful xform"
@@ -92,42 +121,13 @@
               (reduced result)
               (rf result input)))))))))
 
-;; * reducing fns
-
-(defn last
-  ([] nil)
-  ([x] x)
-  ([_ x] x))
-
-
-(defn thread-rf
-  ([] nil)
-  ([v] v)
-  ([v f]
-   (f v)))
-
 ;; * error/exception related utilities
 
 (def throwable?
   (partial instance? #?(:clj java.lang.Throwable :cljs js/Error)))
 
-(defn take-until
-  [pred]
-  (take-while (complement pred)))
-
 (def take-until-err
   (take-until throwable?))
-
-(defn take-until-after
-  [pred]
-  (fn [rf]
-    (fn
-      ([] (rf))
-      ([result] (rf result))
-      ([result input]
-       (if (pred input)
-         (reduced (rf result input))
-         (rf result input))))))
 
 (def take-until-after-err
   (take-until-after throwable?))
@@ -139,12 +139,10 @@
   [v]
   (if (throwable? v) (throw v) v))
 
-
 (defn cljs-env?
   "Take the &env from a macro, and tell whether we are expanding into cljs."
   [env]
   (boolean (:ns env)))
-
 
 (defmacro if-cljs
   "Return then if we are generating cljs code and else for Clojure code.
@@ -152,14 +150,12 @@
   [then else]
   (if (cljs-env? &env) then else))
 
-
 (defmacro err-or
   "Catch exceptions thrown in body and return them"
   [& body]
   `(if-cljs
     (try ~@body (catch :default e# e#))
     (try ~@body (catch java.lang.Throwable e# e#))))
-
 
 (defn catching
   [f]
