@@ -5,7 +5,7 @@
 
 (def url "https://github.com/jessesherlock/Ergo")
 
-(def version "0.1.4")
+(def version "0.1.5")
 
 (def class-dir "target/classes")
 
@@ -22,7 +22,7 @@
                 :version version
                 :basis @basis
                 :src-dirs ["src"]
-                :scm {:tag version :url url}
+                :scm {:tag (format "v%s" version) :url url}
                 :pom-data
                 [[:distributionManagement
                   [:repository
