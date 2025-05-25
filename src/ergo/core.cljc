@@ -1,7 +1,7 @@
 (ns ergo.core
   (:refer-clojure :exclude [iterate last reductions])
   (:require [clojure.core :as c])
-  #?(:cljs (:use-macros [ergo.core :only [err-or]])))
+  #?(:cljs (:require-macros [ergo.core :refer [err-or if-cljs]])))
 
 (defn iterate
   "The classic iterate function, as in core, but with a transducer arity"
