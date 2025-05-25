@@ -6,7 +6,7 @@ Ergo is a small Clojure/Clojurescript library for iteration in a tranducer style
 
 ** Install
 
-~com.jessesherlock/ergo {:mvn/version "0.1.3"}~ / ~[com.jessesherlock/ergo "0.1.3"]~
+~com.jessesherlock/ergo {:mvn/version "0.1.4"}~ / ~[com.jessesherlock/ergo "0.1.4"]~
 
 ** Iterate
 Iterate takes a function f and a seed value x and returns an infinite list of x, (f x), (f (f x)), (f (f (f x))), etc

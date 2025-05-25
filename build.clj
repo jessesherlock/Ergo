@@ -3,7 +3,9 @@
 
 (def lib 'com.jessesherlock/ergo)
 
-(def version "0.1.3")
+(def url "https://github.com/jessesherlock/Ergo")
+
+(def version "0.1.4")
 
 (def class-dir "target/classes")
 
@@ -20,6 +22,7 @@
                 :version version
                 :basis @basis
                 :src-dirs ["src"]
+                :scm {:tag version :url url}
                 :pom-data
                 [[:distributionManagement
                   [:repository
