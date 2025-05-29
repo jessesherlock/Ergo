@@ -14,11 +14,11 @@
        ([result input-ch]
         (a/go-loop [result result
                     input-ch input-ch]
-          (let [input (a/<! input-ch)]
-            (let [result (rf result input)]
-              (if (reduced? result)
-                @result
-                (recur result (f input)))))))))))
+          (let [input (a/<! input-ch)
+                result (rf result input)]
+            (if (reduced? result)
+              @result
+              (recur result (f input))))))))))
 
 
 (defn produce

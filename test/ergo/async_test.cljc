@@ -2,9 +2,9 @@
   (:require [clojure.core.async :as a]
             [clojure.test :as t :refer [deftest testing is]]
             [net.r4s6.test-async :as ta :include-macros true]
-            [ergo.async :as sut]
             [ergo.async-utils :as utils]
-            [ergo.core :as ergo]))
+            [ergo.core :as ergo]
+            [ergo.async :as sut]))
 
 ;; useful util fns for tests
 
