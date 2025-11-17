@@ -3,7 +3,7 @@
 
 (def lib 'com.jessesherlock/ergo)
 
-(def url "https://github.com/jessesherlock/Ergo")
+(def url "https://github.com/jessesherlock/ergo")
 
 (def version "0.2.0")
 

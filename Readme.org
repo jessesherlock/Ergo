@@ -94,7 +94,7 @@ and a function called ~put-rf!~ which works like ~core.async/put!~ but can be us
 
 When working with a pipeline of single values in an async context, especially if you process the collection of iteration steps, promise-channels become essential, if the result of an iteration step is a normal core async channel with a single value on it, then the next step of the iteration will take! that value and your iteration result will be a series of empty channels. Promise channels are the ideal solution to a series of single value channels that maybe read multiple times.
 
-~ergo.async-utils~ has a number of functions for converting to promise-channels, as well as exception handling. It also has promise-channel returning and exception catching versions of ~clojure.core.async/go~ and exception rethrowing versions of ~<!~/~<!!~, ~<?~/~<??~.
+~ergo.async-utils~ has a number of functions for converting to promise-channels, as well as exception handling. It also has promise-channel returning and exception catching versions of ~clojure.core.async/go~ and exception rethrowing versions of ~<!~ / ~<!!~, ~<?~ / ~<??~.
 
 My main use case for this library is for state machines with transitions functions that may or may not return an async value, depending on the state, so there are also versions of ~<!~ and ~<?~ for mixed contexts that accept an argument that may or may not be a core.async channel, ~?<!~ and ~?<?~.
 
